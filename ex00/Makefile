@@ -1,12 +1,7 @@
 NAME = ./and_god_created_interns
 CXX = c++
 SRCS =	./main.cpp \
-		./Bureaucrat.cpp \
-		./AForm.cpp \
-		./ShrubberyCreationForm.cpp \
-		./RobotomyRequestForm.cpp \
-		./PresidentialPardonForm.cpp \
-		./Intern.cpp
+		./ScalarConverter.cpp
 
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))
 INCDIRS = ./includes
