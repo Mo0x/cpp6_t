@@ -25,7 +25,7 @@ class ScalarConverter
 	~ScalarConverter();
 
 	public:
-	void handle_special_case(std::string &to_convert);
+	static bool handle_special_case(const std::string &to_convert);
 	static void convert(std::string const &to_convert);
 	class ConversionError : public std::exception
 	{
@@ -33,16 +33,5 @@ class ScalarConverter
 		virtual const char *what() const throw();
 	};
 };
-
-template<typename T>
-bool convert_tester(std::string const &to_convert)
-{
-	std::istringstream is(to_convert);
-	T test;
-	is >> test;
-	bool const conversion_success = !is.fail();
-	bool const full_string_used = is.rdbuf()->in_avail() == 0;
-	return conversion_success && full_string_used;
-}
 
 #endif

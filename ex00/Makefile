@@ -1,4 +1,4 @@
-NAME = ./and_god_created_interns
+NAME = ./scalar_converter
 CXX = c++
 SRCS =	./main.cpp \
 		./ScalarConverter.cpp
@@ -6,6 +6,8 @@ SRCS =	./main.cpp \
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))
 INCDIRS = ./includes
 CXXFLAGS = -g -Wall -Wextra -Werror -std=c++98 -I$(INCDIRS) -pedantic
+LDFLAGS = -no-pie
+
 all : $(NAME)
 
 

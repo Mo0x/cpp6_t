@@ -11,13 +11,44 @@
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
-#include <sstream>
 #include <iostream>
-#include <vector>
+#include <cstdlib>
+#include <limits>
+#include <cctype>
 
 void to_char(std::string to_convert)
 {
-	
+	try 
+	{
+        if (to_convert.length() == 1 && !std::isdigit(to_convert[0]))
+		{
+            std::cout << "'" << to_convert[0] << "'" << std::endl;
+        } 
+		else 
+		{
+            int as_int = static_cast<int>(std::strtol(to_convert.c_str(), NULL, 10));
+            if (as_int >= std::numeric_limits<char>::min() && as_int <= std::numeric_limits<char>::max())
+			{
+                char as_char = static_cast<char>(as_int);
+                if (std::isprint(as_char))
+				{
+                    std::cout << "'" << as_char << "'" << std::endl;
+                } 
+				else
+				{
+                    std::cout << "Non displayable" << std::endl;
+                }
+            }
+			else 
+			{
+                std::cout << "impossible" << std::endl;
+            }
+        }
+    }
+	catch (...) 
+	{
+        std::cout << "impossible" << std::endl;
+    }	
 }
 
 ScalarConverter::ScalarConverter()
@@ -27,10 +58,10 @@ ScalarConverter::ScalarConverter()
 
 ScalarConverter::ScalarConverter(ScalarConverter const &src)
 {
-	this = *src;
+	*this = src;
 }
 
-ScalarConverter &ScalarConverter::operator(ScalarConverter const &src)
+ScalarConverter &ScalarConverter::operator=(ScalarConverter const &src)
 {
 	(void) src;
 	return (*this);
@@ -41,9 +72,9 @@ ScalarConverter::~ScalarConverter()
 	return ;
 }
 
-void ScalarConverter::handle_special_case(std::string &to_convert)
+bool ScalarConverter::handle_special_case(const std::string &to_convert)
 {
-	return (to_convert == "-inf" || to_convert == "+inf" || to_convert "nan" || to_convert == "-inff" || to_convert == "+inff" || to_convert "nanf");
+	return (to_convert == "-inf" || to_convert == "+inf" || to_convert == "nan" || to_convert == "-inff" || to_convert == "+inff" || to_convert == "nanf");
 }
 
 void ScalarConverter::convert(std::string const &to_convert)
@@ -53,9 +84,9 @@ void ScalarConverter::convert(std::string const &to_convert)
 		std::cerr << "Error, string is empty" << std::endl;
 		return ;
 	}
-	if (handle_special_case(to_convert))
+	if (ScalarConverter::handle_special_case(to_convert))
 	{
-		if (to_convert.back() == 'f')
+		if (to_convert[to_convert.size() - 1]== 'f')
 		{
 			std::cout << "char: impossible" << std::endl;
             std::cout << "int: impossible" << std::endl;
