@@ -15,7 +15,36 @@
 #include <iostream>
 #include <vector>
 
+void to_char(std::string to_convert)
+{
+	
+}
 
+ScalarConverter::ScalarConverter()
+{
+	return ;
+}
+
+ScalarConverter::ScalarConverter(ScalarConverter const &src)
+{
+	this = *src;
+}
+
+ScalarConverter &ScalarConverter::operator(ScalarConverter const &src)
+{
+	(void) src;
+	return (*this);
+} 
+
+ScalarConverter::~ScalarConverter()
+{
+	return ;
+}
+
+void ScalarConverter::handle_special_case(std::string &to_convert)
+{
+	return (to_convert == "-inf" || to_convert == "+inf" || to_convert "nan" || to_convert == "-inff" || to_convert == "+inff" || to_convert "nanf");
+}
 
 void ScalarConverter::convert(std::string const &to_convert)
 {
@@ -24,7 +53,29 @@ void ScalarConverter::convert(std::string const &to_convert)
 		std::cerr << "Error, string is empty" << std::endl;
 		return ;
 	}
+	if (handle_special_case(to_convert))
+	{
+		if (to_convert.back() == 'f')
+		{
+			std::cout << "char: impossible" << std::endl;
+            std::cout << "int: impossible" << std::endl;
+            std::cout << "float: " << to_convert << std::endl;
+            std::cout << "double: " << to_convert.substr(0, to_convert.size() - 1);
+		}
+		else
+		{
+			std::cout << "char: impossible" << std::endl;
+            std::cout << "int: impossible" << std::endl;
+            std::cout << "float: " << to_convert + "f" << std::endl;
+            std::cout << "double: " << to_convert << std::endl;
+		}
+		return ;
+	}
 	std::cout << "char: ";
+	to_char(to_convert);
+	std::cout << std::endl;
+
+	/* std::cout << "char: ";
 	convert_tester<char>(to_convert) ? std::cout << static_cast<char>(to_convert) : throw ScalarConverter::ConversionError();
 	std::cout <<std::endl;
 	std::cout << "int: ";
@@ -35,7 +86,7 @@ void ScalarConverter::convert(std::string const &to_convert)
 	std::cout <<std::endl;
 	std::cout << "double: ";
 	convert_tester<double>(to_convert) ? std::cout << static_cast<double>(to_convert) : throw ScalarConverter::ConversionError();
-	std::cout <<std::endl;
+	std::cout <<std::endl; */
 }
 
 const char *ScalarConverter::ConversionError::what(void) const throw()

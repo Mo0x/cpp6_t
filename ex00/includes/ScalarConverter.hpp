@@ -19,8 +19,13 @@
 class ScalarConverter
 {
 	private:
+	ScalarConverter();
+	ScalarConverter(ScalarConverter const &src);
+	ScalarConverter &operator=(ScalarConverter const &src);
+	~ScalarConverter();
 
 	public:
+	void handle_special_case(std::string &to_convert);
 	static void convert(std::string const &to_convert);
 	class ConversionError : public std::exception
 	{
