@@ -6,7 +6,7 @@
 /*   By: phuture <phuture@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 16:43:44 by phuture           #+#    #+#             */
-/*   Updated: 2025/01/19 16:46:58 by phuture          ###   ########.fr       */
+/*   Updated: 2025/01/19 16:59:05 by phuture          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 #define SERIALIZER_HPP
 
 #include <iostream>
+#include <stdint.h>
+
+typedef     struct Data
+{
+    std::string a;
+    long b;
+    double c;
+}   Data;
 
 class Serializer
 {
