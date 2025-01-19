@@ -20,32 +20,35 @@
 
 void to_char(std::string const &to_convert)
 {
-	try 
+	try
 	{
-        if (to_convert.length() == 1 && !std::isdigit(to_convert[0]))
+		if (to_convert.length() == 1 && !std::isdigit(to_convert[0]))
 		{
-            std::cout << "'" << to_convert[0] << "'" << std::endl;
-        } 
-		else 
-		{
-            int as_int = static_cast<int>(std::strtol(to_convert.c_str(), NULL, 10));
-            if (as_int >= std::numeric_limits<char>::min() && as_int <= std::numeric_limits<char>::max())
-			{
-                char as_char = static_cast<char>(as_int);
-                if (std::isprint(as_char))
-				{
-                    std::cout << "'" << as_char << "'" << std::endl;
-                } 
-				else
-				{
-					std::cout << "Non displayable." << std::endl;
-                }
-            }
-			else 
-			{
-				throw ScalarConverter::ConversionError();
-            }
-        }
+			std::cout << "'" << to_convert[0] << "'" << std::endl;
+   		} 
+    	else 
+    	{
+       		char *endptr;
+	        long as_int = std::strtol(to_convert.c_str(), &endptr, 10);
+
+        	if (*endptr != '\0') 
+        	{
+         	   throw ScalarConverter::ConversionError();
+        	}
+        	if (as_int < CHAR_MIN || as_int > CHAR_MAX) 
+       		{
+         	   throw ScalarConverter::ConversionError();
+        	}
+        	char as_char = static_cast<char>(as_int);
+        	if (std::isprint(as_char)) 
+        	{
+         	   std::cout << "'" << as_char << "'" << std::endl;
+        	} 
+       		else 
+    		{
+    			std::cout << "Non displayable." << std::endl;
+			}
+	    }
     }
 	catch (std::exception &e)
 	{
