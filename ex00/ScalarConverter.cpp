@@ -15,8 +15,9 @@
 #include <cstdlib>
 #include <limits>
 #include <cctype>
+#include <climits>
 
-void to_char(std::string to_convert)
+void to_char(std::string const &to_convert)
 {
 	try 
 	{
@@ -36,19 +37,45 @@ void to_char(std::string to_convert)
                 } 
 				else
 				{
-                    std::cout << "Non displayable" << std::endl;
+					throw ScalarConverter::ConversionError();
                 }
             }
 			else 
 			{
-                std::cout << "impossible" << std::endl;
+				throw ScalarConverter::ConversionError();
             }
         }
     }
-	catch (...) 
+	catch (std::exception &e)
 	{
-        std::cout << "impossible" << std::endl;
-    }	
+		std::cerr << e.what() << std::endl;
+	}	
+}
+
+static void to_int(std::string const &to_convert)
+{
+	try
+	{
+        char *endptr;
+        long as_long = std::strtol(to_convert.c_str(), &endptr, 10);
+
+        if (*endptr != '\0')
+		{
+            throw ScalarConverter::ConversionError();
+        }
+        if (as_long > INT_MAX || as_long < INT_MIN) 
+		{
+            throw ScalarConverter::ConversionError();
+        }
+		else 
+		{
+            std::cout << static_cast<int>(as_long) << std::endl;
+        }
+    }
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }
 
 ScalarConverter::ScalarConverter()
@@ -104,20 +131,9 @@ void ScalarConverter::convert(std::string const &to_convert)
 	}
 	std::cout << "char: ";
 	to_char(to_convert);
-	std::cout << std::endl;
-
-	/* std::cout << "char: ";
-	convert_tester<char>(to_convert) ? std::cout << static_cast<char>(to_convert) : throw ScalarConverter::ConversionError();
-	std::cout <<std::endl;
 	std::cout << "int: ";
-	convert_tester<int>(to_convert) ? std::cout << static_cast<int>(to_convert) : throw ScalarConverter::ConversionError();
-	std::cout <<std::endl;
-	std::cout << "float: ";
-	convert_tester<float>(to_convert) ? std::cout << static_cast<float>(to_convert) : throw ScalarConverter::ConversionError();
-	std::cout <<std::endl;
-	std::cout << "double: ";
-	convert_tester<double>(to_convert) ? std::cout << static_cast<double>(to_convert) : throw ScalarConverter::ConversionError();
-	std::cout <<std::endl; */
+	to_int(to_convert);
+	
 }
 
 const char *ScalarConverter::ConversionError::what(void) const throw()
