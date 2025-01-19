@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <limits>
 #include <cctype>
+#include <cerrno>
 #include <climits>
 
 void to_char(std::string const &to_convert)
@@ -37,7 +38,7 @@ void to_char(std::string const &to_convert)
                 } 
 				else
 				{
-					throw ScalarConverter::ConversionError();
+					std::cout << "Non displayable." << std::endl;
                 }
             }
 			else 
@@ -72,6 +73,46 @@ static void to_int(std::string const &to_convert)
             std::cout << static_cast<int>(as_long) << std::endl;
         }
     }
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+}
+
+static void to_float(std::string const &to_convert)
+{
+	 try
+	 {
+        float as_float = std::strtof(to_convert.c_str(), NULL);
+        if (errno == ERANGE)
+		{
+            throw ScalarConverter::ConversionError();
+        } 
+		else 
+		{
+            std::cout << as_float << "f" << std::endl;
+        }
+    }
+	catch (std::exception &e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
+}
+
+static void to_double(std::string const &to_convert)
+{
+	try
+	{
+		double as_double = std::strtod(to_convert.c_str(), NULL);
+		if (errno == ERANGE)
+		{
+			throw ScalarConverter::ConversionError();
+		}
+		else
+		{
+			std::cout << as_double << std::endl;
+		}
+	}
 	catch (std::exception &e)
 	{
 		std::cerr << e.what() << std::endl;
@@ -133,10 +174,13 @@ void ScalarConverter::convert(std::string const &to_convert)
 	to_char(to_convert);
 	std::cout << "int: ";
 	to_int(to_convert);
-	
+	std::cout << "float: ";
+	to_float(to_convert);
+	std::cout << "double: ";	
+	to_double(to_convert);
 }
 
 const char *ScalarConverter::ConversionError::what(void) const throw()
 {
-	return ("Error, conversion failled");
+	return ("Error, conversion failled: impossible.");
 }
