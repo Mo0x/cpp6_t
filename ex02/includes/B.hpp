@@ -6,7 +6,7 @@
 /*   By: phuture <phuture@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:08:27 by phuture           #+#    #+#             */
-/*   Updated: 2025/01/20 15:09:56 by phuture          ###   ########.fr       */
+/*   Updated: 2025/01/20 15:33:51 by phuture          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "Base.hpp"
 
-class A : public Base
+class B : public Base
 {
 
 };

@@ -1,7 +1,8 @@
-NAME = ./serialization
+NAME = ./identify
 CXX = c++
 SRCS =	./main.cpp \
-		./Serializer.cpp
+		./Base.cpp \
+		./func.cpp
 
 OBJS = $(patsubst %.cpp, %.o, $(SRCS))
 INCDIRS = ./includes

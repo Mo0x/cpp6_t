@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   func.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: phuture <phuture@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 15:03:55 by phuture           #+#    #+#             */
-/*   Updated: 2025/01/20 15:36:10 by phuture          ###   ########.fr       */
+/*   Created: 2025/01/20 15:19:01 by phuture           #+#    #+#             */
+/*   Updated: 2025/01/20 15:22:17 by phuture          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
+#ifndef FUNC_HPP
+#define FUNC_HPP
+
 #include "Base.hpp"
 #include "A.hpp"
 #include "B.hpp"
 #include "C.hpp"
-#include "func.hpp"
 
-int main(void)
-{
-    Base *base = generate();
-    std::cout << "Identify via pointer: ";
-    identify(base);
-    std::cout << "Identify via ref: ";
-    delete base;
-    return 0;
-}
+Base *generate(void);
+void identify(Base *p);
+void identify(Base &p);
+
+
+#endif
